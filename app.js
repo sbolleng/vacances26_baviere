@@ -41,10 +41,22 @@
     }).join("") + "</div>";
   }
 
-  function mapsHTML(query, libelle) {
+  // Waze : le lien universel https://waze.com/ul ouvre l'application si elle
+  // est installée (iPhone comme Android) et bascule sur le site sinon.
+  function wazeURL(query) {
+    return "https://waze.com/ul?q=" + encodeURIComponent(query) + "&navigate=yes";
+  }
+  function gmapsURL(query) {
+    return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(query);
+  }
+
+  function navHTML(query, dest, compact) {
     if (!query) return "";
-    return '<a class="maps" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' +
-      encodeURIComponent(query) + '">' + (libelle || "Ouvrir dans Maps") + "</a>";
+    var cls = compact ? "legm" : "maps";
+    return '<a class="' + cls + '" target="_blank" rel="noopener" href="' + wazeURL(query) +
+      '" aria-label="Naviguer vers ' + esc(dest) + ' avec Waze">Waze</a>' +
+      '<a class="' + cls + ' alt" target="_blank" rel="noopener" href="' + gmapsURL(query) +
+      '" aria-label="Itinéraire vers ' + esc(dest) + ' avec Google Maps">Maps</a>';
   }
 
   // Trajet entre deux points de la journée.
@@ -55,9 +67,7 @@
       "<span>" + esc(leg.from) + " → " + esc(dest) + "</span>" +
       '<span class="legd">' + esc(leg.dur) +
       (leg.km ? ' <i>' + esc(leg.km) + "</i>" : "") + "</span>" +
-      (leg.maps ? '<a class="legm" target="_blank" rel="noopener" ' +
-        'href="https://www.google.com/maps/dir/?api=1&destination=' +
-        encodeURIComponent(leg.maps) + '" aria-label="Itinéraire vers ' + esc(dest) + '">Y aller</a>' : "") +
+      navHTML(leg.maps, dest, true) +
       "</div>";
   }
 
@@ -140,7 +150,7 @@
           (j.stay.addr ? '<div class="addr">' + esc(j.stay.addr) + "</div>" : "") +
           tagsHTML(j.stay.tags) +
           (j.stay.note ? '<div class="note">' + esc(j.stay.note) + "</div>" : "") +
-          mapsHTML(j.stay.maps) +
+          (j.stay.maps ? '<div class="navrow">' + navHTML(j.stay.maps, j.stay.nm, false) + "</div>" : "") +
           "</div>";
       }
     }

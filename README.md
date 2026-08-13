@@ -40,9 +40,12 @@ Tout est dans `data/jours.js`, une entrée par journée :
 - `date` sert à détecter le jour en cours — c'est elle qui met la carte en vert.
 - Dans `tags`, le premier élément donne la couleur : `"h"` pour un horaire,
   `"p"` pour un prix, `"warn"` pour une alerte, `""` pour du neutre.
-- `leg` affiche le trajet **depuis le point précédent**, avec un bouton
-  « Y aller » qui ouvre l'itinéraire dans Maps. `retour` fait la même chose
-  pour le trajet du soir.
+- `leg` affiche le trajet **depuis le point précédent**, avec deux boutons de
+  navigation. `retour` fait la même chose pour le trajet du soir.
+- Les boutons **Waze** et **Maps** sont construits depuis le champ `maps`, qui
+  contient une adresse en clair. Waze passe par le lien universel
+  `https://waze.com/ul?q=…&navigate=yes` : sur iPhone comme sur Android, il
+  ouvre l'application si elle est installée et bascule sur le site sinon.
 - `guide` accepte du HTML (`<p>`, `<strong>`, `<em>`) et s'affiche dans un bloc
   rétractable « Le mot du guide ». C'est le seul champ inséré sans échappement,
   parce qu'il est rédigé à la main dans ce fichier.
