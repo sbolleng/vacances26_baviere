@@ -20,18 +20,33 @@ Tout est dans `data/jours.js`, une entrée par journée :
 
 ```js
 {
-  n: 5, date: "2026-08-12", jour: "Mercredi 12", mois: "août", base: "Siegsdorf",
-  route: { from: "München", to: "Burghausen", dur: "1 h 25" },
+  n: 6, date: "2026-08-13", jour: "Jeudi 13", mois: "août", base: "Siegsdorf",
+  alerte: "Message rouge en tête de journée.",
   acts: [
-    { nm: "Burghausen", tags: [["h", "9 h – 18 h"], ["p", "6 €"]], note: "…" }
+    {
+      nm: "Wimbachklamm — gorges",
+      leg: { from: "Siegsdorf", to: "Wimbachklamm", dur: "~55 min", km: "63 km",
+             maps: "Parkplatz Wimbachbrücke, Ramsau" },
+      tags: [["p", "4 €"], ["h", "1 h aller-retour"]],
+      note: "Précision pratique, en gris sous les étiquettes.",
+      guide: "<p>Le texte du guide, en HTML.</p>"
+    }
   ],
-  stay: { nm: "Airbnb Siegsdorf", addr: "Weidenstrasse 19", nights: 2 }
+  retour: { from: "Obersalzberg", to: "Siegsdorf", dur: "~55 min", km: "58 km" },
+  stay: { same: true, nm: "Airbnb Siegsdorf" }
 }
 ```
 
 - `date` sert à détecter le jour en cours — c'est elle qui met la carte en vert.
 - Dans `tags`, le premier élément donne la couleur : `"h"` pour un horaire,
   `"p"` pour un prix, `"warn"` pour une alerte, `""` pour du neutre.
+- `leg` affiche le trajet **depuis le point précédent**, avec un bouton
+  « Y aller » qui ouvre l'itinéraire dans Maps. `retour` fait la même chose
+  pour le trajet du soir.
+- `guide` accepte du HTML (`<p>`, `<strong>`, `<em>`) et s'affiche dans un bloc
+  rétractable « Le mot du guide ». C'est le seul champ inséré sans échappement,
+  parce qu'il est rédigé à la main dans ce fichier.
+- `alerte` met un bandeau rouge en tête de journée.
 - `stay: { same: true, nm: "…" }` quand on ne change pas d'hébergement.
 - `maps: "adresse"` ajoute un bouton « Ouvrir dans Maps ».
 

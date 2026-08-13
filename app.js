@@ -41,10 +41,33 @@
     }).join("") + "</div>";
   }
 
-  function mapsHTML(query) {
+  function mapsHTML(query, libelle) {
     if (!query) return "";
     return '<a class="maps" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' +
-      encodeURIComponent(query) + '">Ouvrir dans Maps</a>';
+      encodeURIComponent(query) + '">' + (libelle || "Ouvrir dans Maps") + "</a>";
+  }
+
+  // Trajet entre deux points de la journée.
+  function legHTML(leg, arrivee) {
+    if (!leg) return "";
+    var dest = leg.to || arrivee;
+    return '<div class="leg">' + CAR +
+      "<span>" + esc(leg.from) + " → " + esc(dest) + "</span>" +
+      '<span class="legd">' + esc(leg.dur) +
+      (leg.km ? ' <i>' + esc(leg.km) + "</i>" : "") + "</span>" +
+      (leg.maps ? '<a class="legm" target="_blank" rel="noopener" ' +
+        'href="https://www.google.com/maps/dir/?api=1&destination=' +
+        encodeURIComponent(leg.maps) + '" aria-label="Itinéraire vers ' + esc(dest) + '">Y aller</a>' : "") +
+      "</div>";
+  }
+
+  // Le texte de guide est du HTML rédigé dans data/jours.js — pas une saisie
+  // utilisateur. Il est donc inséré tel quel, contrairement au reste.
+  function guideHTML(txt, titre) {
+    if (!txt) return "";
+    return "<details class=\"guide\"><summary><span>Le mot du guide</span>" +
+      '<span class="chev" aria-hidden="true">▾</span></summary>' +
+      '<div class="guide-body">' + txt + "</div></details>";
   }
 
   // ----- bandeau des jours -----
@@ -84,14 +107,24 @@
         '<span class="dur">' + esc(j.route.dur) + "</span></div>";
     }
 
+    if (j.alerte) {
+      h += '<p class="alerte">' + esc(j.alerte) + "</p>";
+    }
+
     if (j.acts && j.acts.length) {
       h += '<ul class="acts">' + j.acts.map(function (a) {
-        return '<li><span class="dot"></span><div>' +
+        return "<li>" + legHTML(a.leg, a.nm) +
+          '<div class="act-in"><span class="dot"></span><div class="act-txt">' +
           '<div class="nm">' + esc(a.nm) + "</div>" +
           tagsHTML(a.tags) +
           (a.note ? '<div class="note">' + esc(a.note) + "</div>" : "") +
-          "</div></li>";
+          guideHTML(a.guide, a.nm) +
+          "</div></div></li>";
       }).join("") + "</ul>";
+
+      if (j.retour) {
+        h += '<div class="retour">' + legHTML(j.retour) + "</div>";
+      }
     } else if (j.stay) {
       h += '<p class="empty">Journée de route, rien de calé.</p>';
     }
