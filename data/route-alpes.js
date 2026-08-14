@@ -111,54 +111,54 @@ const ETAPES = [
     guide: "<p>La Marktstraße descend en pente douce vers l'Isar, large comme une place, bordée de maisons à pignons plats et à façades peintes — ocre, rose pâle, vert d'eau, avec des encadrements en trompe-l'œil. C'est probablement la plus jolie petite ville que vous verrez avant Lindau, et les parkings en contrebas sont faciles.</p><p><strong>D'où vient l'argent.</strong> La ville a fait fortune au Moyen Âge grâce au flottage du bois et au commerce du sel, qui descendaient l'Isar jusqu'à Munich. Puis elle s'est reconvertie en 1846, quand on y a découvert une source iodée — la plus riche d'Europe. Elle vit depuis du thermalisme, ce qui explique les grands établissements en périphérie et la moyenne d'âge élevée sur les bancs publics.</p><p>Pour les Allemands, Bad Tölz est aussi le décor d'une série policière culte diffusée pendant vingt ans, ce qui lui vaut une notoriété sans rapport avec sa taille.</p>"
   },
   {
-    km: 189, h: "16:28", nm: "Benediktbeuern", dest: "Kloster Benediktbeuern",
+    km: 189, h: "16:53", nm: "Benediktbeuern", dest: "Kloster Benediktbeuern",
     tags: [["view", "Abbaye"], ["p", "Gratuit"]],
     texte: "Abbaye bénédictine de 739. C'est ici qu'on a découvert le manuscrit des Carmina Burana. Église et cour en accès libre.",
     guide: "<p>Cette abbaye bénédictine, fondée en 739, cache une histoire qui dépasse largement le cadre local.</p><p>Elle possédait dans sa bibliothèque un manuscrit oublié depuis des siècles. Quand les biens du clergé sont saisis en 1803, un bibliothécaire le retrouve et le transfère à Munich : c'est le recueil des <em>Carmina Burana</em>, deux cent cinquante-quatre poèmes latins et allemands du XIII<sup>e</sup> siècle, écrits par des clercs vagabonds, célébrant le vin, le jeu, l'amour et la roue de la Fortune.</p><p>Carl Orff en a mis vingt-quatre en musique en 1936. Le chœur d'ouverture, <em>O Fortuna</em>, est devenu l'un des morceaux les plus utilisés au cinéma et à la télévision — tout le monde le connaît sans savoir d'où il vient. Il vient d'ici, de cette abbaye que vous longez.</p>"
   },
   {
-    km: 197, h: "16:40", nm: "Kochelsee", dest: "Strandbad Kochel am See",
+    km: 197, h: "17:05", nm: "Kochelsee", dest: "Strandbad Kochel am See",
     tags: [["swim", "Baignade"], ["", "Musée Franz Marc"]],
     texte: "Grand lac plat au débouché de la montagne, le plus chaud du secteur — 21 à 22 °C. Plage municipale gratuite.",
     guide: "<p>Un lac de moraine, large et peu profond, posé exactement là où la montagne s'arrête et où la plaine commence. Il se réchauffe vite : 21 à 22 °C en août, contre 18 au Walchensee qui le surplombe de deux cents mètres.</p><p>Le peintre Franz Marc, l'un des fondateurs du Cavalier bleu avec Kandinsky, a vécu et travaillé ici. Ses chevaux bleus et ses cerfs jaunes sont nés dans ces paysages. Un musée lui est consacré à cent mètres de la rive — petit, lumineux, et une bonne demi-heure si le temps le permet.</p>"
   },
   {
-    km: 202, h: "16:50", nm: "Col du Kesselberg", dest: "Kesselbergstraße, Kochel am See",
+    km: 202, h: "17:15", nm: "Col du Kesselberg", dest: "Kesselbergstraße, Kochel am See",
     tags: [["view", "Vue ★"], ["stop", "Prudence"]],
     texte: "Neuf virages en épingle sur cinq kilomètres. Le belvédère du sommet, à droite en montant, donne la vue sur le Walchensee.",
     guide: "<p>La dernière partie du trajet est la meilleure, et elle commence ici. Du Kochelsee, la route grimpe le col du Kesselberg en neuf épingles serrées sur cinq kilomètres, avec deux cents mètres de dénivelé.</p><p>Le passage est un mythe pour les motards allemands, au point que l'administration l'a fermé aux deux-roues certains dimanches d'été après une série d'accidents mortels. Un vendredi d'août, vous en croiserez beaucoup, souvent vite et sur l'angle : gardez votre trajectoire et n'hésitez pas à vous laisser doubler.</p><p>Le belvédère du sommet, sur la droite en montant, donne la vue de carte postale sur le Walchensee. Arrêtez-vous : c'est de là que la couleur du lac est la plus spectaculaire, vue de haut.</p>"
   },
   {
-    km: 206, h: "17:00", nm: "Walchensee", dest: "Einsiedl, Walchensee, Kochel am See",
+    km: 206, h: "17:25", nm: "Walchensee", dest: "Einsiedl, Walchensee, Kochel am See",
     swim: true, plan: "bain",
     tags: [["swim", "Baignade ★★"], ["view", "Vue ★"], ["", "18 °C"]],
     texte: "Le clou de la journée. Lac de haute montagne à 800 m, turquoise saturé, cerné de sommets. La Sandbucht près d'Einsiedl est le meilleur accès.",
-    guide: "<p>Le Walchensee apparaît d'un coup au sommet du col : huit cents mètres au-dessus du niveau de la mer, d'un turquoise dense qui paraît artificiel. C'est l'un des plus grands et des plus profonds lacs alpins d'Allemagne — cent quatre-vingt-dix mètres de fond — et sa couleur vient des fines particules calcaires en suspension.</p><p><strong>L'électricité.</strong> En 1924, on a construit une centrale hydroélectrique qui utilise les deux cents mètres de dénivelé entre le Walchensee et le Kochelsee. Elle fut longtemps la plus puissante d'Europe et alimente encore le réseau ferroviaire bavarois. Les conduites forcées descendent la montagne juste à côté de la route que vous venez de monter.</p><p><strong>L'or.</strong> En avril 1945, dans les derniers jours du régime, des convois de la Reichsbank ont dispersé les réserves d'or et de devises dans les Alpes bavaroises. Une partie a été enterrée dans la région, et l'on a longtemps affirmé que des caisses avaient été immergées dans ce lac. Des plongeurs, des chercheurs de trésor et quelques expéditions officielles s'y sont succédé pendant des décennies ; on a effectivement remonté des billets, jamais l'or. L'affaire alimente encore les conversations locales.</p><p><strong>La baignade.</strong> La rive nord, à Urfeld, offre plusieurs accès libres, et l'anse de sable près d'Einsiedl est le meilleur endroit du lac. L'eau est à dix-huit degrés : c'est court, c'est vif, et c'est exactement le genre de bain dont on se souvient vingt ans plus tard. C'est aussi un spot de planche à voile réputé, grâce à un vent thermique qui se lève l'après-midi.</p><p><strong>Un point de vigilance horaire.</strong> Le soleil passe tôt derrière les crêtes sur ce lac. Après dix-huit heures, la rive nord bascule à l'ombre et l'eau paraît nettement plus froide. Si vous avez le choix, arrivez avant.</p>"
+    guide: "<p>Le Walchensee apparaît d'un coup au sommet du col : huit cents mètres au-dessus du niveau de la mer, d'un turquoise dense qui paraît artificiel. C'est l'un des plus grands et des plus profonds lacs alpins d'Allemagne — cent quatre-vingt-dix mètres de fond — et sa couleur vient des fines particules calcaires en suspension.</p><p><strong>L'électricité.</strong> En 1924, on a construit une centrale hydroélectrique qui utilise les deux cents mètres de dénivelé entre le Walchensee et le Kochelsee. Elle fut longtemps la plus puissante d'Europe et alimente encore le réseau ferroviaire bavarois. Les conduites forcées descendent la montagne juste à côté de la route que vous venez de monter.</p><p><strong>L'or.</strong> En avril 1945, dans les derniers jours du régime, des convois de la Reichsbank ont dispersé les réserves d'or et de devises dans les Alpes bavaroises. Une partie a été enterrée dans la région, et l'on a longtemps affirmé que des caisses avaient été immergées dans ce lac. Des plongeurs, des chercheurs de trésor et quelques expéditions officielles s'y sont succédé pendant des décennies ; on a effectivement remonté des billets, jamais l'or. L'affaire alimente encore les conversations locales.</p><p><strong>La baignade.</strong> La rive nord, à Urfeld, offre plusieurs accès libres, et l'anse de sable près d'Einsiedl est le meilleur endroit du lac. L'eau est à dix-huit degrés : c'est court, c'est vif, et c'est exactement le genre de bain dont on se souvient vingt ans plus tard. C'est aussi un spot de planche à voile réputé, grâce à un vent thermique qui se lève l'après-midi.</p><p><strong>La lumière.</strong> Les crêtes coupent le soleil bien avant le coucher : en août, la rive nord bascule progressivement à l'ombre à partir de 18 h 30 environ. À 17 h 25 vous avez encore l'eau en pleine lumière, mais ne traînez pas trop — c'est plus agréable au soleil, et l'eau est à dix-huit degrés.</p>"
   },
   {
-    km: 214, h: "17:55", nm: "Route de l'Isar · péage", dest: "Mautstraße Wallgau Vorderriss",
+    km: 214, h: "18:20", nm: "Route de l'Isar · péage", dest: "Mautstraße Wallgau Vorderriss",
     tags: [["", "Détour"], ["", "Péage"]],
     texte: "Une route privée part vers Vorderriss et longe l'Isar sauvage sur quinze kilomètres. C'est un détour, pas un raccourci."
   },
   {
-    km: 226, h: "18:15", nm: "Krün · Barmsee", dest: "Barmsee, Krün",
+    km: 226, h: "18:40", nm: "Krün · Barmsee", dest: "Barmsee, Krün",
     swim: true,
     tags: [["swim", "Baignade"], ["view", "Vue ★"], ["", "22 °C"]],
     texte: "Petit lac tiède à l'écart de la route, avec le Wetterstein et la Zugspitze en toile de fond. Parking gratuit, cinq minutes de marche.",
     guide: "<p>Après Wallgau et Krün, la vallée s'élargit une dernière fois et le massif du Wetterstein ferme l'horizon — avec, au milieu, la Zugspitze que vous monterez demain.</p><p>Le Barmsee, minuscule et peu profond, offre le point de vue le plus photographié de Haute-Bavière : le lac au premier plan, la chaîne entière derrière. Il se réchauffe vite, autour de vingt-deux degrés, et le parking est gratuit à cinq minutes de marche.</p><p>Si le Walchensee a été trop froid pour les enfants, c'est ici qu'il faut leur offrir la revanche.</p>"
   },
   {
-    km: 240, h: "18:35", nm: "Garmisch-Partenkirchen", dest: "Zugspitzestrasse 51, Garmisch-Partenkirchen",
+    km: 240, h: "19:00", nm: "Garmisch-Partenkirchen", dest: "Zugspitzestrasse 51, Garmisch-Partenkirchen",
     tags: [["stop", "Logement"]],
     texte: "L'appartement, Zugspitzestrasse 51, appartement 9 au 2e étage. Boîte à clefs, parking, lave-linge au sous-sol."
   },
   {
-    km: 255, h: "18:55", nm: "Abbaye d'Ettal", dest: "Kloster Ettal, Kaiser-Ludwig-Platz 1, Ettal",
+    km: 255, h: "19:20", nm: "Abbaye d'Ettal", dest: "Kloster Ettal, Kaiser-Ludwig-Platz 1, Ettal",
     tags: [["view", "Abbaye"], ["stop", "Ferme à 18 h"]],
     texte: "Coupole baroque, Madone de marbre, boutique des moines. Si vous arrivez après 18 h, c'est pour demain matin ou pour dimanche."
   },
   {
-    km: 260, h: "19:05", nm: "Oberammergau", dest: "Oberammergau, Bayern",
+    km: 260, h: "19:30", nm: "Oberammergau", dest: "Oberammergau, Bayern",
     tags: [["stop", "Arrivée"]],
     texte: "Les façades peintes, les ateliers de sculpture et le théâtre de la Passion. Les rues se visitent à toute heure."
   }
