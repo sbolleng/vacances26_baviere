@@ -37,9 +37,18 @@
   }
 
   var PLAN = {
-    dej: "Arrêt déjeuner retenu",
+    dej: "Pique-nique retenu",
     bain: "Baignade retenue"
   };
+
+  // Le texte de guide est rédigé à la main dans data/route-alpes.js :
+  // il est inséré tel quel, contrairement au reste.
+  function guide(txt) {
+    if (!txt) return "";
+    return '<details class="guide"><summary><span>Le mot du guide</span>' +
+      '<span class="chev" aria-hidden="true">▾</span></summary>' +
+      '<div class="guide-body">' + txt + "</div></details>";
+  }
 
   var liste = document.getElementById("stops");
   ETAPES.forEach(function (e) {
@@ -59,6 +68,7 @@
           '<a class="go alt" target="_blank" rel="noopener" href="' + maps(e.dest) +
             '" aria-label="Itinéraire vers ' + esc(e.nm) + ' avec Google Maps">Maps</a>' +
         "</div>" +
+        guide(e.guide) +
       "</div>";
 
     liste.appendChild(li);
