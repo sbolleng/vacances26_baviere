@@ -311,6 +311,24 @@ body {
 .maps.alt { color: var(--lake); background: transparent; }
 .retour .leg { border-bottom: none; border-top: 1px solid var(--line-soft); }
 
+/* étape non faite, reportée */
+.acts li.reporte .act-in { opacity: 0.55; }
+.acts li.reporte .nm { text-decoration: line-through; text-decoration-thickness: 1px; }
+.acts li.reporte .dot { background: var(--faint); }
+.report {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brick);
+  background: var(--brick-soft);
+  border-radius: 4px;
+  padding: 0.14rem 0.42rem;
+  margin-bottom: 0.3rem;
+}
+.acts li.reporte .report { opacity: 1; }
+
 /* renvoi vers une page dédiée */
 .gopage {
   display: flex;

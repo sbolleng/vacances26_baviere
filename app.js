@@ -130,8 +130,10 @@
 
     if (j.acts && j.acts.length) {
       h += '<ul class="acts">' + j.acts.map(function (a) {
-        return "<li>" + legHTML(a.leg, a.nm) +
+        return '<li' + (a.reporte ? ' class="reporte"' : "") + ">" +
+          legHTML(a.leg, a.nm) +
           '<div class="act-in"><span class="dot"></span><div class="act-txt">' +
+          (a.reporte ? '<span class="report">' + esc(a.reporte) + "</span>" : "") +
           '<div class="nm">' + esc(a.nm) + "</div>" +
           tagsHTML(a.tags) +
           (a.note ? '<div class="note">' + esc(a.note) + "</div>" : "") +
