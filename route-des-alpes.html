@@ -80,7 +80,7 @@
     /* ---- étapes kilométrées ---- */
     .stops { list-style: none; margin-top: 0.9rem; }
     .stop {
-      display: grid; grid-template-columns: 3.4rem 1fr; gap: 0.75rem;
+      display: grid; grid-template-columns: 3.9rem 1fr; gap: 0.75rem;
       padding: 0.75rem 0; border-top: 1px solid var(--line-soft);
     }
     .stop:first-child { border-top: none; }
@@ -90,11 +90,24 @@
       font-variant-numeric: tabular-nums;
     }
     .stop .km span { display: block; font-size: 0.55rem; font-weight: 400; color: var(--faint); }
+    .stop .km .hr {
+      font-size: 0.8rem; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.02em; margin-bottom: 0.1rem;
+    }
+    .stop.past .km .hr { color: var(--lake); }
+    .stop.next .km .hr { color: var(--ochre); }
+    .stop .km { padding-top: 0; }
     .stop h4 { font-size: 0.95rem; font-weight: 600; letter-spacing: -0.005em; }
     .stop p { font-size: 0.84rem; color: var(--muted); margin-top: 0.25rem; }
     .stop .meta { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
-    .stop.swim { background: var(--lake-soft); border-radius: 10px; padding-left: 0.5rem; padding-right: 0.6rem; }
-    .stop.swim .km { padding-right: 0; }
+    /* fond vert = déjà passé */
+    .stop.past { background: var(--lake-soft); border-radius: 10px; padding-left: 0.5rem; padding-right: 0.6rem; }
+    .stop.past .km { padding-right: 0; }
+    .stop.past h4, .stop.past p { opacity: 0.72; }
+    /* l'étape qui arrive */
+    .stop.next { box-shadow: inset 0 0 0 2px var(--ochre); border-radius: 10px;
+      padding-left: 0.5rem; padding-right: 0.6rem; border-top-color: transparent; }
+    .stop.next .km { padding-right: 0; }
 
     .t {
       font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em;
@@ -129,6 +142,7 @@
       background: var(--lake); border-radius: 4px; padding: 0.14rem 0.42rem;
       margin-bottom: 0.35rem;
     }
+    .pin.now { background: var(--ochre); }
 
     /* ---- boutons de navigation par étape ---- */
     .nav { display: flex; gap: 0.35rem; margin-top: 0.55rem; }
@@ -326,7 +340,7 @@
   </script>
 
   <h2 class="sec">Le détail, kilomètre par kilomètre</h2>
-  <p class="sub">Dans l'ordre de passage. Les blocs bleus sont les points de baignade.</p>
+  <p class="sub">Dans l'ordre de passage, avec l'heure estimée. Les blocs verts sont derrière vous, l'encadré ocre est l'étape qui arrive. Horaires recalés sur Bad Tölz à 16 h 06.</p>
 
   <ol class="stops" id="stops"></ol>
 

@@ -50,14 +50,35 @@
       '<div class="guide-body">' + txt + "</div></details>";
   }
 
+  // Minutes depuis minuit, pour comparer l'horaire d'une étape à l'heure qu'il est.
+  function minutes(hhmm) {
+    var p = hhmm.split(":");
+    return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+  }
+  var maintenant = (function () {
+    var d = new Date();
+    return d.getHours() * 60 + d.getMinutes();
+  })();
+
   var liste = document.getElementById("stops");
+  var suivanteTrouvee = false;
+
   ETAPES.forEach(function (e) {
+    var passe = minutes(e.h) < maintenant;
+    var suivante = false;
+    if (!passe && !suivanteTrouvee) { suivante = true; suivanteTrouvee = true; }
+
     var li = document.createElement("li");
-    li.className = "stop" + (e.swim ? " swim" : "") + (e.plan ? " chosen" : "");
+    li.className = "stop" +
+      (passe ? " past" : "") +
+      (suivante ? " next" : "") +
+      (e.plan ? " chosen" : "");
 
     li.innerHTML =
-      '<div class="km">' + e.km + "<span>km</span></div>" +
+      '<div class="km"><span class="hr">' + e.h + "</span>" + e.km +
+        "<span>km</span></div>" +
       "<div>" +
+        (suivante ? '<span class="pin now">Vous arrivez</span>' : "") +
         (e.plan ? '<span class="pin">' + PLAN[e.plan] + "</span>" : "") +
         "<h4>" + esc(e.nm) + "</h4>" +
         "<p>" + esc(e.texte) + "</p>" +
