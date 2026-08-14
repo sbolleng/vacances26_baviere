@@ -80,6 +80,13 @@
       '<div class="guide-body">' + txt + "</div></details>";
   }
 
+  // Renvoi vers une page dédiée quand une étape en a une.
+  function pageHTML(page) {
+    if (!page) return "";
+    return '<a class="gopage" href="' + esc(page.href) + '">' +
+      esc(page.libelle) + '<span aria-hidden="true">→</span></a>';
+  }
+
   // ----- bandeau des jours -----
   var strip = document.getElementById("strip");
   JOURS.forEach(function (j) {
@@ -128,6 +135,7 @@
           '<div class="nm">' + esc(a.nm) + "</div>" +
           tagsHTML(a.tags) +
           (a.note ? '<div class="note">' + esc(a.note) + "</div>" : "") +
+          pageHTML(a.page) +
           guideHTML(a.guide, a.nm) +
           "</div></div></li>";
       }).join("") + "</ul>";

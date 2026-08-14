@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Route des Alpes · Bavière 2026</title>
+  <meta name="description" content="La Deutsche Alpenstraße de Siegsdorf à Oberammergau : itinéraire kilométré, arrêts, baignades et guide détaillé.">
+  <meta name="theme-color" content="#EAEDE9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E1517" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page { max-width: 620px; margin: 0 auto; padding: 0 0.9rem 4rem; }
+
+    .back {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      padding: 0.9rem 0 0.2rem;
+    }
+    .back:focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; }
+
+    .hero { padding: 0.5rem 0 1.2rem; border-bottom: 1px solid var(--line); }
+    .hero .kicker {
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--ochre);
+    }
+    .hero h1 {
+      font-family: var(--serif); font-size: clamp(1.7rem, 7vw, 2.3rem);
+      font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;
+      text-wrap: balance; margin: 0.35rem 0 0.5rem;
+    }
+    .hero p { font-size: 0.9rem; color: var(--muted); }
+    .facts { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.8rem; }
+
+    h2.sec {
+      font-family: var(--serif); font-size: 1.35rem; font-weight: 600;
+      letter-spacing: -0.015em; margin: 2rem 0 0.2rem; text-wrap: balance;
+    }
+    h2.sec + .sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.9rem; }
+
+    /* ---- carte ---- */
+    .mapwrap {
+      margin-top: 0.9rem; border: 1px solid var(--line); border-radius: 14px;
+      background: var(--card); overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    .mapwrap svg { display: block; min-width: 880px; width: 100%; height: auto; }
+    /* sur grand écran la carte déborde de la colonne de lecture */
+    @media (min-width: 1000px) {
+      .mapwrap { width: 94vw; max-width: 1060px; position: relative; left: 50%; transform: translateX(-50%); }
+    }
+    .maphint {
+      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em;
+      color: var(--faint); text-align: center; padding: 0.5rem 0 0;
+    }
+
+    /* ---- options d'horaire ---- */
+    .opts { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.9rem; }
+    .opt {
+      background: var(--card); border: 1px solid var(--line);
+      border-left: 3px solid var(--line); border-radius: 12px; padding: 0.8rem 0.95rem;
+    }
+    .opt.reco { border-left-color: var(--lake); }
+    .opt h3 {
+      font-size: 0.95rem; font-weight: 600; display: flex;
+      align-items: baseline; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .opt h3 .badge {
+      font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--lake); border: 1px solid var(--lake);
+      border-radius: 999px; padding: 0.1rem 0.45rem;
+    }
+    .opt .num {
+      font-family: var(--mono); font-size: 0.72rem; color: var(--ochre);
+      font-weight: 700; display: block; margin: 0.3rem 0;
+    }
+    .opt p { font-size: 0.83rem; color: var(--muted); }
+
+    /* ---- étapes kilométrées ---- */
+    .stops { list-style: none; margin-top: 0.9rem; }
+    .stop {
+      display: grid; grid-template-columns: 3.4rem 1fr; gap: 0.75rem;
+      padding: 0.75rem 0; border-top: 1px solid var(--line-soft);
+    }
+    .stop:first-child { border-top: none; }
+    .stop .km {
+      font-family: var(--mono); font-size: 0.78rem; font-weight: 700;
+      color: var(--ochre); text-align: right; padding-top: 0.1rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .stop .km span { display: block; font-size: 0.55rem; font-weight: 400; color: var(--faint); }
+    .stop h4 { font-size: 0.95rem; font-weight: 600; letter-spacing: -0.005em; }
+    .stop p { font-size: 0.84rem; color: var(--muted); margin-top: 0.25rem; }
+    .stop .meta { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
+    .stop.swim { background: var(--lake-soft); border-radius: 10px; padding-left: 0.5rem; padding-right: 0.6rem; }
+    .stop.swim .km { padding-right: 0; }
+
+    .t {
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.16rem 0.42rem; border-radius: 4px;
+      background: var(--card2); border: 1px solid var(--line-soft); color: var(--muted);
+    }
+    .t.swim { background: var(--lake); border-color: var(--lake); color: var(--card); }
+    .t.view { background: var(--ochre-soft); border-color: transparent; color: var(--ochre); }
+    .t.stop2 { background: var(--brick-soft); border-color: transparent; color: var(--brick); }
+
+    /* ---- texte long ---- */
+    .prose { margin-top: 0.6rem; }
+    .prose h3 {
+      font-size: 1rem; font-weight: 600; margin: 1.4rem 0 0.4rem;
+      letter-spacing: -0.005em;
+    }
+    .prose h3:first-child { margin-top: 0.4rem; }
+    .prose p { font-size: 0.9rem; line-height: 1.65; margin-top: 0.7rem; color: var(--ink); }
+    .prose p em { font-style: italic; color: var(--muted); }
+    .prose sup { font-size: 0.7em; }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <a class="back" href="index.html">← Retour au séjour</a>
+
+  <header class="hero">
+    <p class="kicker">Vendredi 14 août · jour 7</p>
+    <h1>La route des Alpes</h1>
+    <p>De Siegsdorf à Oberammergau par la <em>Deutsche Alpenstraße</em> — la route qui refuse le chemin le plus court.</p>
+    <div class="facts">
+      <span class="tag p">260 km en intégral</span>
+      <span class="tag h">≈ 5 h de volant</span>
+      <span class="tag">Point haut 1 123 m</span>
+      <span class="tag">7 baignades possibles</span>
+    </div>
+  </header>
+
+  <h2 class="sec">L'itinéraire</h2>
+  <p class="sub">Schéma du tracé, d'est en ouest. Les lacs sont en bleu, le raccourci autoroute en pointillé.</p>
+
+  <div class="mapwrap">
+    <svg viewBox="0 0 1000 300" role="img" aria-label="Schéma de l'itinéraire de Siegsdorf à Oberammergau par la route des Alpes">
+      <defs>
+        <style>
+          .lac { fill: var(--lake); opacity: 0.28; }
+          .lacnm { font-family: var(--mono); font-size: 9px; fill: var(--lake); letter-spacing: 0.06em; }
+          .trace { fill: none; stroke: var(--ochre); stroke-width: 3.4; stroke-linejoin: round; stroke-linecap: round; }
+          .court { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 7 6; opacity: 0.75; }
+          .pt { fill: var(--card); stroke: var(--ochre); stroke-width: 2.4; }
+          .pt-maj { fill: var(--ochre); stroke: var(--card); stroke-width: 2; }
+          .pt-swim { fill: var(--lake); stroke: var(--card); stroke-width: 2; }
+          .nm { font-family: var(--sans); font-size: 11.5px; fill: var(--ink); font-weight: 600; }
+          .km { font-family: var(--mono); font-size: 9px; fill: var(--faint); }
+          .lead { stroke: var(--line); stroke-width: 1; }
+          .cap { font-family: var(--mono); font-size: 9px; fill: var(--muted); letter-spacing: 0.1em; }
+        </style>
+      </defs>
+
+      <!-- lacs -->
+      <ellipse class="lac" cx="795" cy="46" rx="52" ry="26"/>
+      <text class="lacnm" x="795" y="49" text-anchor="middle">CHIEMSEE</text>
+      <ellipse class="lac" cx="878" cy="128" rx="20" ry="9"/>
+      <ellipse class="lac" cx="497" cy="122" rx="12" ry="17"/>
+      <ellipse class="lac" cx="437" cy="140" rx="11" ry="26"/>
+      <ellipse class="lac" cx="234" cy="167" rx="17" ry="19"/>
+      <ellipse class="lac" cx="224" cy="196" rx="25" ry="15"/>
+      <ellipse class="lac" cx="196" cy="228" rx="9" ry="6"/>
+
+      <!-- raccourci autoroute Bernau -> Bad Tölz -->
+      <path class="court" d="M 751.5,76.9 C 660,20 430,18 338,104.7"/>
+      <text class="cap" x="545" y="24" text-anchor="middle">RACCOURCI A8 · 55 KM · 45 MIN</text>
+
+      <!-- tracé principal -->
+      <polyline class="trace" points="881.5,71.6 935,103.6 886.5,126 860,136.7 797,148.9 797.5,113.2 791,106.3 786,94 751.5,76.9 722,95.6 666.5,136.7 655,152.7 645,164.9 595,161.7 580,155.3 567,150.5 491,118 439,129.7 338,104.7 265,133.5 242.5,159.1 236,174 227.5,190 207,234.8 195,240.7 107.5,247.6 106.5,206 93,191.1"/>
+
+      <!-- points secondaires -->
+      <circle class="pt" cx="935" cy="103.6" r="3.4"/>
+      <circle class="pt" cx="797.5" cy="113.2" r="3.4"/>
+      <circle class="pt" cx="791" cy="106.3" r="3.4"/>
+      <circle class="pt" cx="722" cy="95.6" r="3.4"/>
+      <circle class="pt" cx="645" cy="164.9" r="3.4"/>
+      <circle class="pt" cx="595" cy="161.7" r="3.4"/>
+      <circle class="pt" cx="265" cy="133.5" r="3.4"/>
+      <circle class="pt" cx="207" cy="234.8" r="3.4"/>
+      <circle class="pt" cx="106.5" cy="206" r="3.4"/>
+
+      <!-- points majeurs et baignades -->
+      <circle class="pt-maj" cx="881.5" cy="71.6" r="5"/>
+      <circle class="pt-swim" cx="886.5" cy="126" r="5"/>
+      <circle class="pt-maj" cx="797" cy="148.9" r="5"/>
+      <circle class="pt-swim" cx="751.5" cy="76.9" r="5"/>
+      <circle class="pt-maj" cx="666.5" cy="136.7" r="5"/>
+      <circle class="pt-maj" cx="580" cy="155.3" r="5"/>
+      <circle class="pt-maj" cx="567" cy="150.5" r="5"/>
+      <circle class="pt-swim" cx="491" cy="118" r="5"/>
+      <circle class="pt-swim" cx="439" cy="129.7" r="5"/>
+      <circle class="pt-maj" cx="338" cy="104.7" r="5"/>
+      <circle class="pt-swim" cx="242.5" cy="159.1" r="5"/>
+      <circle class="pt-swim" cx="227.5" cy="190" r="5"/>
+      <circle class="pt-swim" cx="195" cy="240.7" r="5"/>
+      <circle class="pt-maj" cx="107.5" cy="247.6" r="5"/>
+      <circle class="pt-maj" cx="93" cy="191.1" r="6"/>
+
+      <!-- étiquettes : est -->
+      <line class="lead" x1="881.5" y1="66" x2="881.5" y2="96"/>
+      <text class="nm" x="886" y="96" text-anchor="end">Siegsdorf</text>
+      <text class="km" x="886" y="107" text-anchor="end">km 0 · départ</text>
+
+      <line class="lead" x1="886.5" y1="131" x2="886.5" y2="160"/>
+      <text class="nm" x="891" y="171" text-anchor="middle">Weitsee</text>
+      <text class="km" x="891" y="182" text-anchor="middle">km 22 · baignade</text>
+
+      <line class="lead" x1="797" y1="154" x2="797" y2="196"/>
+      <text class="nm" x="797" y="207" text-anchor="middle">Reit im Winkl</text>
+      <text class="km" x="797" y="218" text-anchor="middle">km 40</text>
+
+      <line class="lead" x1="751.5" y1="82" x2="751.5" y2="116"/>
+      <text class="nm" x="751.5" y="127" text-anchor="middle">Bernau · Chiemsee</text>
+      <text class="km" x="751.5" y="138" text-anchor="middle">km 65 · baignade</text>
+
+      <line class="lead" x1="666.5" y1="142" x2="666.5" y2="182"/>
+      <text class="nm" x="666.5" y="193" text-anchor="middle">Sachrang</text>
+      <text class="km" x="666.5" y="204" text-anchor="middle">km 86</text>
+
+      <line class="lead" x1="580" y1="160" x2="580" y2="212"/>
+      <text class="nm" x="580" y="223" text-anchor="middle">Sudelfeld</text>
+      <text class="km" x="580" y="234" text-anchor="middle">km 122 · 1 123 m</text>
+
+      <line class="lead" x1="491" y1="113" x2="491" y2="82"/>
+      <text class="nm" x="491" y="78" text-anchor="middle">Schliersee</text>
+      <text class="km" x="491" y="67" text-anchor="middle">km 142 · baignade</text>
+
+      <line class="lead" x1="439" y1="135" x2="439" y2="180"/>
+      <text class="nm" x="439" y="191" text-anchor="middle">Tegernsee</text>
+      <text class="km" x="439" y="202" text-anchor="middle">km 154 · baignade</text>
+
+      <line class="lead" x1="338" y1="99" x2="338" y2="72"/>
+      <text class="nm" x="338" y="68" text-anchor="middle">Bad Tölz</text>
+      <text class="km" x="338" y="57" text-anchor="middle">km 174</text>
+
+      <line class="lead" x1="242.5" y1="164" x2="290" y2="164"/>
+      <text class="nm" x="295" y="161" text-anchor="start">Kochelsee</text>
+      <text class="km" x="295" y="172" text-anchor="start">km 197 · baignade</text>
+
+      <line class="lead" x1="227.5" y1="195" x2="290" y2="205"/>
+      <text class="nm" x="295" y="202" text-anchor="start">Walchensee</text>
+      <text class="km" x="295" y="213" text-anchor="start">km 206 · baignade</text>
+
+      <line class="lead" x1="195" y1="246" x2="250" y2="256"/>
+      <text class="nm" x="255" y="253" text-anchor="start">Krün · Barmsee</text>
+      <text class="km" x="255" y="264" text-anchor="start">km 226 · baignade</text>
+
+      <line class="lead" x1="107.5" y1="253" x2="107.5" y2="272"/>
+      <text class="nm" x="112" y="283" text-anchor="middle">Garmisch</text>
+      <text class="km" x="112" y="294" text-anchor="middle">km 240</text>
+
+      <line class="lead" x1="93" y1="185" x2="93" y2="160"/>
+      <text class="nm" x="70" y="156" text-anchor="start">Oberammergau</text>
+      <text class="km" x="70" y="145" text-anchor="start">km 260 · arrivée</text>
+    </svg>
+    <p class="maphint">Schéma indicatif — faites glisser pour suivre le tracé vers l'ouest</p>
+  </div>
+
+  <script>
+    // Le trajet va d'est en ouest : on cadre sur Siegsdorf, le point de départ.
+    (function () {
+      var m = document.querySelector('.mapwrap');
+      if (m) m.scrollLeft = m.scrollWidth;
+    })();
+  </script>
+
+  <h2 class="sec">Combien de temps vous avez</h2>
+  <p class="sub">Départ de l'appartement à 10 h, clefs de Garmisch à partir de 16 h. Trois façons de jouer la journée.</p>
+
+  <div class="opts">
+    <div class="opt">
+      <h3>L'intégrale</h3>
+      <span class="num">260 km · ≈ 5 h de volant</span>
+      <p>Tout l'itinéraire ci-dessous, sans raccourci. Arrivée à Garmisch vers 17 h sans aucun arrêt, 19 h avec une baignade et un déjeuner. Réaliste seulement si vous renoncez à Oberammergau et Ettal aujourd'hui — ils sont à vingt minutes de l'appartement, vous pouvez très bien les faire samedi matin avant la Zugspitze.</p>
+    </div>
+    <div class="opt reco">
+      <h3>Le milieu coupé <span class="badge">ma reco</span></h3>
+      <span class="num">205 km · ≈ 3 h 15 de volant</span>
+      <p>Route des Alpes de Siegsdorf à Bernau (km 65), puis autoroute A8 et sortie vers Bad Tölz, où l'on reprend le tracé au km 174 jusqu'au bout. On garde les deux plus beaux morceaux — les lacs du Chiemgau à l'aller, le Kesselberg et le Walchensee à l'arrivée — et on sacrifie la section Sachrang-Tegernsee, jolie mais la moins caractéristique. Arrivée à Oberammergau vers 14 h 30 avec une baignade en chemin, ce qui laisse la place pour le village et l'abbaye.</p>
+    </div>
+    <div class="opt">
+      <h3>Le direct</h3>
+      <span class="num">180 km · ≈ 2 h 30 de volant</span>
+      <p>Autoroute d'un bout à l'autre. C'est la ligne de repli si la météo est mauvaise : sous la pluie, une route panoramique n'est plus qu'une route lente.</p>
+    </div>
+  </div>
+
+  <h2 class="sec">Le détail, kilomètre par kilomètre</h2>
+  <p class="sub">Dans l'ordre de passage. Les blocs bleus sont les points de baignade.</p>
+
+  <ol class="stops">
+
+    <li class="stop">
+      <div class="km">0<span>km</span></div>
+      <div>
+        <h4>Siegsdorf</h4>
+        <p>Départ. Faites le plein ici : le gazole est nettement moins cher en vallée qu'au bord de la B305, et les stations se raréfient dès qu'on monte.</p>
+        <div class="meta"><span class="t">Départ</span><span class="t">Carburant</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">11<span>km</span></div>
+      <div>
+        <h4>Inzell</h4>
+        <p>Grosse station de sports d'hiver, connue pour son anneau de patinage de vitesse couvert où se courent les championnats du monde. Dernier vrai supermarché avant la montagne — c'est le moment d'acheter le pique-nique.</p>
+        <div class="meta"><span class="t">Ravitaillement</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">22<span>km</span></div>
+      <div>
+        <h4>Weitsee</h4>
+        <p>Le premier des trois lacs de la <em>Chiemgauer Seenplatte</em>, alignés le long de la route dans une réserve naturelle. Eau turquoise, fond de galets clairs, forêt de sapins jusqu'à la rive. Stationnement payant en bord de route, accès libre à l'eau, quelques tables de pique-nique. Autour de 19 °C en août.</p>
+        <div class="meta"><span class="t swim">Baignade</span><span class="t view">Vue</span><span class="t">Pique-nique</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">28<span>km</span></div>
+      <div>
+        <h4>Mittersee et Lödensee</h4>
+        <p>Les deux petits frères du Weitsee, à quelques centaines de mètres, nettement plus discrets et souvent déserts en semaine. Le Lödensee a une petite plage de sable au bout d'un sentier de cinq minutes — c'est le meilleur des trois pour des enfants.</p>
+        <div class="meta"><span class="t swim">Baignade</span><span class="t">Calme</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">40<span>km</span></div>
+      <div>
+        <h4>Reit im Winkl</h4>
+        <p>Le village le plus enneigé d'Allemagne en hiver, station familiale l'été. C'est ici que le planning prévoyait de « prendre la route des Alpes » — en réalité vous y êtes depuis Inzell. Bonne halte café, terrasses et boulangeries sur la rue principale.</p>
+        <div class="meta"><span class="t stop2">Pause</span><span class="t">Carburant</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">55<span>km</span></div>
+      <div>
+        <h4>Marquartstein</h4>
+        <p>Château perché au-dessus du village, et surtout la vallée de l'Achen qui s'ouvre : le paysage passe des gorges boisées aux prairies larges. Un télésiège monte au Hochplatte si l'envie prend.</p>
+        <div class="meta"><span class="t view">Vue</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">65<span>km</span></div>
+      <div>
+        <h4>Bernau am Chiemsee</h4>
+        <p>Le Chiemsee, la « mer bavaroise » — quatre-vingts kilomètres carrés, et surtout <strong>l'eau la plus chaude de tout l'itinéraire</strong>, 23 à 24 °C en août. Plage municipale de Felden à deux kilomètres de la sortie, gazon, pontons, location de pédalos. C'est le seul point du parcours où la baignade est une vraie baignade de vacances et non un bain de montagne.</p>
+        <div class="meta"><span class="t swim">Baignade ★</span><span class="t stop2">Déjeuner</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">75<span>km</span></div>
+      <div>
+        <h4>Aschau im Chiemgau</h4>
+        <p>Le château de Hohenaschau domine la vallée depuis un éperon rocheux. Au-dessus, le téléphérique de la Kampenwand monte à 1 460 m pour l'un des plus beaux panoramas sur le Chiemsee — comptez deux heures aller-retour si vous le tentez.</p>
+        <div class="meta"><span class="t view">Vue</span><span class="t">Téléphérique</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">86<span>km</span></div>
+      <div>
+        <h4>Sachrang</h4>
+        <p>Un hameau au fond du Priental, à un kilomètre de la frontière autrichienne, avec une église baroque isolée et un petit musée consacré au « Müllner Peter », meunier, musicien et guérisseur local devenu figure de légende. C'est le point le plus reculé de la journée.</p>
+        <div class="meta"><span class="t">Hameau</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">92<span>km</span></div>
+      <div>
+        <h4>Col de Wildbichl · frontière</h4>
+        <p>On passe en Autriche sans s'en rendre compte, puis on revient en Allemagne vingt kilomètres plus loin. Aucun contrôle, mais gardez les papiers accessibles : la police allemande fait des contrôles mobiles dans la vallée de l'Inn.</p>
+        <div class="meta"><span class="t">Frontière</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">116<span>km</span></div>
+      <div>
+        <h4>Tatzelwurm</h4>
+        <p>Une cascade dans une gorge étroite, à cent mètres de la route, accessible par un escalier — deux euros, dix minutes. Le nom vient d'une créature du folklore alpin, mi-lézard mi-dragon, censée hanter ces gorges. La route qui y mène est une succession d'épingles taillées dans la forêt.</p>
+        <div class="meta"><span class="t view">Cascade</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">122<span>km</span></div>
+      <div>
+        <h4>Col du Sudelfeld · 1 123 m</h4>
+        <p><strong>Le point culminant de la journée.</strong> Un plateau d'alpages ouvert, avec le Wendelstein en face et sa station d'observation au sommet. Plusieurs aires de stationnement panoramiques, et des auberges d'altitude qui servent la soupe aux boulettes de pain. Si vous ne devez vous arrêter qu'une fois entre Bernau et Bad Tölz, c'est ici.</p>
+        <div class="meta"><span class="t view">Vue ★</span><span class="t stop2">Pause</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">128<span>km</span></div>
+      <div>
+        <h4>Bayrischzell</h4>
+        <p>Village-carte-postale au pied du Wendelstein, dont le train à crémaillère de 1912 grimpe à 1 838 m depuis Osterhofen. C'est le plus ancien chemin de fer de montagne d'Allemagne encore en service.</p>
+        <div class="meta"><span class="t">Village</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">142<span>km</span></div>
+      <div>
+        <h4>Schliersee</h4>
+        <p>Petit lac encaissé, très fréquenté le week-end par les Munichois. Le <em>Strandbad</em> municipal a une pelouse, un plongeoir et un bassin pour les petits ; il y a aussi des accès libres sur la rive est, plus discrets. Eau autour de 21 °C.</p>
+        <div class="meta"><span class="t swim">Baignade</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">154<span>km</span></div>
+      <div>
+        <h4>Tegernsee</h4>
+        <p>Le lac chic de la Bavière : villas d'industriels, cliniques privées et prix de l'immobilier alpins. La brasserie du Herzogliches Bräustüberl, installée dans l'ancienne abbaye, est une institution — on y boit debout dans une salle voûtée pour trois euros la chope. Baignade libre au Point de Gmund et à Bad Wiessee.</p>
+        <div class="meta"><span class="t swim">Baignade</span><span class="t stop2">Brasserie</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">174<span>km</span></div>
+      <div>
+        <h4>Bad Tölz</h4>
+        <p>La plus jolie halte urbaine du parcours. La Marktstraße, large et pentue, est bordée de façades peintes à fresque du XVIII<sup>e</sup> siècle, presque toutes ocre, roses ou vert d'eau. Ville thermale à l'iode depuis 1846, et décor d'une série policière allemande culte pendant vingt ans. Parkings faciles en contrebas.</p>
+        <div class="meta"><span class="t stop2">Pause ★</span><span class="t view">Vieille ville</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">189<span>km</span></div>
+      <div>
+        <h4>Benediktbeuern</h4>
+        <p>Abbaye bénédictine de 739, l'une des plus anciennes de Bavière. C'est dans sa bibliothèque qu'on a découvert en 1803 le manuscrit des <em>Carmina Burana</em> — le recueil de poèmes goliards du XIII<sup>e</sup> siècle que Carl Orff a mis en musique en 1936. L'église et la cour sont en accès libre.</p>
+        <div class="meta"><span class="t view">Abbaye</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">197<span>km</span></div>
+      <div>
+        <h4>Kochelsee</h4>
+        <p>Grand lac plat au débouché de la montagne, et le plus chaud des lacs alpins du secteur — 21 à 22 °C. Plage municipale à Kochel, gratuite, avec pelouse et buvette. Le peintre Franz Marc, du Cavalier bleu, a vécu et travaillé ici ; un musée lui est consacré à cent mètres de la rive.</p>
+        <div class="meta"><span class="t swim">Baignade</span><span class="t">Musée</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">202<span>km</span></div>
+      <div>
+        <h4>Col du Kesselberg</h4>
+        <p>Neuf virages en épingle sur cinq kilomètres, entre le Kochelsee en bas et le Walchensee en haut. C'est un lieu de pèlerinage pour les motards, au point que la route leur est fermée certains dimanches d'été après une série d'accidents. Le belvédère du sommet, sur la droite en montant, donne la vue de carte postale sur le Walchensee.</p>
+        <div class="meta"><span class="t view">Vue ★</span><span class="t stop2">Prudence</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">206<span>km</span></div>
+      <div>
+        <h4>Walchensee</h4>
+        <p><strong>Le clou de la journée.</strong> Un lac de haute montagne à 800 m, d'un turquoise saturé qui vient des particules calcaires en suspension, entouré de sommets. La rive nord, à Urfeld, a plusieurs accès libres ; le meilleur est la <em>Sandbucht</em> près d'Einsiedl, une anse de sable clair. L'eau tourne autour de 18 °C — c'est vif, mais c'est la baignade dont les enfants se souviendront. C'est aussi un spot de planche à voile réputé, grâce à un vent thermique qui se lève l'après-midi.</p>
+        <div class="meta"><span class="t swim">Baignade ★★</span><span class="t view">Vue ★</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">214<span>km</span></div>
+      <div>
+        <h4>Route de l'Isar · péage <span class="t">option</span></h4>
+        <p>Une route à péage privée part vers Vorderriss et longe l'Isar sauvage sur une quinzaine de kilomètres, entre des bancs de galets blancs. Quelques euros la barrière. C'est un détour, pas un raccourci — à garder pour un jour où vous avez du temps.</p>
+        <div class="meta"><span class="t">Détour</span><span class="t">Péage</span></div>
+      </div>
+    </li>
+
+    <li class="stop swim">
+      <div class="km">226<span>km</span></div>
+      <div>
+        <h4>Krün · Barmsee</h4>
+        <p>Un petit lac tiède à l'écart de la route, avec le massif du Wetterstein et la Zugspitze en toile de fond — c'est l'un des points de vue les plus photographiés de Haute-Bavière. Peu profond, il se réchauffe vite : autour de 22 °C. Parking gratuit, cinq minutes de marche.</p>
+        <div class="meta"><span class="t swim">Baignade</span><span class="t view">Vue ★</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">240<span>km</span></div>
+      <div>
+        <h4>Garmisch-Partenkirchen</h4>
+        <p>L'appartement est ici, Zugspitzestrasse 51. Si l'heure a filé, déposez les valises et gardez Oberammergau et Ettal pour samedi matin — c'est à vingt minutes.</p>
+        <div class="meta"><span class="t stop2">Logement</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">255<span>km</span></div>
+      <div>
+        <h4>Abbaye d'Ettal</h4>
+        <p>La coupole baroque, la Madone de marbre, et la boutique des moines — liqueur, bière et fromage. Ouvert jusqu'à 18 h.</p>
+        <div class="meta"><span class="t view">Abbaye</span></div>
+      </div>
+    </li>
+
+    <li class="stop">
+      <div class="km">260<span>km</span></div>
+      <div>
+        <h4>Oberammergau</h4>
+        <p>Terminus : les façades peintes, les ateliers de sculpture et le théâtre de la Passion.</p>
+        <div class="meta"><span class="t stop2">Arrivée</span></div>
+      </div>
+    </li>
+
+  </ol>
+
+  <h2 class="sec">Le mot du guide</h2>
+  <p class="sub">Tout ce qu'il y a derrière cette route.</p>
+
+  <div class="prose">
+
+    <h3>Une idée de 1927</h3>
+    <p>La <em>Deutsche Alpenstraße</em> naît d'une frustration. Dans les années 1920, l'Autriche a sa Grossglockner Hochalpenstraße en projet, la Suisse ses cols mythiques, l'Italie ses routes dolomitiques — et l'Allemagne, qui ne possède qu'une mince bande alpine large de quarante kilomètres, n'a rien à montrer. En 1927, l'ingénieur munichois Knorz propose une route qui suivrait la ligne des Alpes d'un bout à l'autre du territoire allemand : de Lindau, sur le lac de Constance, à Berchtesgaden, à la frontière autrichienne. Quatre cent cinquante kilomètres, vingt-cinq lacs, une vingtaine de cols.</p>
+    <p>Le principe est explicitement l'inverse de celui d'une route ordinaire. Il ne s'agit pas d'aller d'un point à un autre, mais de passer par le plus grand nombre possible de beaux endroits. La route monte pour monter, contourne pour montrer, et perd volontairement du temps. C'est l'une des premières <em>parkways</em> touristiques d'Europe, contemporaine de la Blue Ridge Parkway américaine, et elle repose sur une intuition alors neuve : que la voiture puisse être un moyen de contemplation et pas seulement de transport.</p>
+
+    <h3>Une route que le régime a récupérée, puis abandonnée</h3>
+    <p>Le chantier démarre en 1933, immédiatement récupéré par le nouveau régime : on parle d'une route du prestige national, Hitler pose la première pierre en 1934 près du lac de Sameralm, et la propagande en fait un symbole de la conquête technique du territoire. Les tronçons les plus spectaculaires — dont la route de Rossfeld, près de Berchtesgaden — sont percés dans ces années-là, au prix d'un travail considérable et de conditions dangereuses.</p>
+    <p>Puis la guerre arrive et tout s'arrête. Le tracé prévu ne sera jamais achevé : plusieurs sections, notamment dans l'Allgäu, n'ont jamais été construites, et l'itinéraire officiel d'aujourd'hui consiste à relier bout à bout des routes départementales existantes, avec un fléchage discret. Il en résulte un paradoxe : la route des Alpes allemandes est célèbre, elle figure dans tous les guides, et pratiquement personne ne la parcourt en entier. Elle se pratique par morceaux — et vous vous apprêtez à en faire l'un des meilleurs.</p>
+
+    <h3>Le Chiemgau : l'ouverture</h3>
+    <p>La première heure traverse le Chiemgau, un pays de vallées larges et de forêts sombres, encore peu alpin d'aspect. Le passage qui compte est celui des trois lacs entre Inzell et Reit im Winkl : le Weitsee, le Mittersee et le Lödensee, alignés dans un couloir glaciaire, en réserve naturelle. La route les longe littéralement — on voit l'eau depuis le pare-brise — et l'on peut se garer à quelques mètres de la rive. Ce sont des lacs de fonte, à l'eau très claire et fraîche, bordés de galets blancs et de sapins. Personne n'y construit : la réserve interdit tout aménagement, il n'y a ni buvette ni sanitaires, seulement des tables de bois.</p>
+    <p>Reit im Winkl, ensuite, est un cul-de-sac collé à la frontière. Sa réputation tient à une anomalie météorologique : la configuration de la cuvette y piège les perturbations et y accumule des quantités de neige sans rapport avec l'altitude — le village est régulièrement le point le plus enneigé d'Allemagne, avec des hivers à plusieurs mètres. D'où une tradition de ski qui a produit Rosi Mittermaier, double championne olympique en 1976, enfant du pays et l'une des sportives les plus populaires de l'histoire allemande jusqu'à sa mort en 2023.</p>
+
+    <h3>Le Chiemsee, la mer bavaroise</h3>
+    <p>Au kilomètre 65, la montagne s'écarte d'un coup et le plus grand lac de Bavière apparaît : quatre-vingts kilomètres carrés, deux îles, et une lumière complètement différente. On l'appelle le <em>Bayerisches Meer</em>. Sur l'île des Hommes, Louis II a fait bâtir Herrenchiemsee, une réplique de Versailles dont il n'a achevé qu'un tiers et où il n'a dormi que dix nuits — vous croiserez le même personnage dimanche à Linderhof et à Neuschwanstein, et vous commencerez à comprendre le motif. Sur l'île des Dames, un couvent bénédictin fondé au VIII<sup>e</sup> siècle produit une liqueur et un pain d'épices vendus au débarcadère.</p>
+    <p>Pour vous, l'intérêt est plus simple : c'est le seul plan d'eau chaud de la journée. Vingt-trois à vingt-quatre degrés en août, des plages de gazon, des pontons, des pédalos. Après quatre jours de torrents alpins, cela peut valoir une heure d'arrêt à Felden, et c'est le bon endroit pour déjeuner.</p>
+
+    <h3>Pourquoi tous ces lacs</h3>
+    <p>Vous allez longer une douzaine de plans d'eau en une seule journée, et ce n'est pas un hasard de parcours : c'est la signature d'un glacier. Il y a vingt mille ans, au maximum de la dernière glaciation, la glace descendait des Alpes jusqu'aux portes de Munich en langues épaisses de plusieurs centaines de mètres. Chacune de ces langues a creusé sa vallée, poussé devant elle un bourrelet de débris, puis fondu sur place en laissant un barrage naturel derrière lequel l'eau s'est accumulée.</p>
+    <p>D'où deux familles de lacs très différentes, et vous verrez les deux. Les lacs de vallée surcreusée — Walchensee, Königssee, Tegernsee — sont étroits, profonds, encaissés entre des parois, avec une eau froide qui ne se réchauffe jamais parce que le volume est trop grand. Les lacs de moraine, eux — Chiemsee, Kochelsee, Barmsee — occupent des cuvettes peu profondes dans la plaine, s'étalent largement, et l'été les rend tièdes. C'est toute la différence entre la baignade à Bernau, où l'on reste une heure dans l'eau, et celle du Walchensee, où l'on sort au bout de cinq minutes en criant.</p>
+    <p>La roche compte aussi. Les Alpes bavaroises sont majoritairement calcaires — des sédiments déposés au fond d'une mer tropicale il y a deux cents millions d'années, puis soulevés et plissés lors de la collision entre l'Afrique et l'Europe. Le calcaire se dissout lentement dans l'eau et libère des particules d'une finesse extrême, qui restent en suspension et diffusent la lumière bleue. C'est cela, et rien d'autre, qui donne aux lacs du parcours leur turquoise irréel. Les lacs de granit, dans les Vosges ou en Scandinavie, sont noirs pour la même raison inverse.</p>
+
+    <h3>Le Priental, la partie secrète</h3>
+    <p>Après Aschau, la route s'enfonce dans une vallée étroite et se vide. Sachrang, tout au bout, compte quelques centaines d'habitants et une église baroque isolée dans les prés. Le village entretient la mémoire du « Müllner Peter », un meunier du XIX<sup>e</sup> siècle qui était aussi compositeur, guérisseur et herboriste — une de ces figures de sagesse rurale dont la Bavière raffole. Son moulin se visite.</p>
+    <p>Puis on bascule en Autriche par le col de Wildbichl, on descend sur la vallée de l'Inn, et on la remonte jusqu'à Oberaudorf. La transition est brutale : d'un vallon silencieux on tombe dans un couloir de circulation majeur, l'axe Munich-Innsbruck-Brenner, avec l'autoroute et la voie ferrée côte à côte. Cela ne dure que quelques kilomètres.</p>
+
+    <h3>Le Tatzelwurm et le Sudelfeld</h3>
+    <p>La remontée vers le Sudelfeld est le premier vrai morceau de bravoure routier. Des lacets serrés dans la forêt, une gorge où gronde une cascade, et ce nom étrange de Tatzelwurm — le « ver à pattes », une créature du folklore alpin, sorte de lézard-dragon trapu que les bergers juraient avoir vu jusqu'au XIX<sup>e</sup> siècle. Les récits sont assez nombreux et concordants pour que des naturalistes s'y soient sérieusement intéressés ; on n'a jamais rien trouvé.</p>
+    <p>Au sommet, à 1 123 mètres, le paysage s'ouvre sur un plateau d'alpages. C'est le point haut de la journée. En face, le Wendelstein, reconnaissable à la petite église et à l'observatoire plantés à son sommet — c'est l'église la plus haute d'Allemagne, bâtie en 1890 par des ouvriers qui montaient le matériel à dos de mulet. Un train à crémaillère y grimpe depuis 1912. Plusieurs aires de stationnement permettent de s'arrêter, et des auberges d'altitude servent la <em>Brotzeit</em>, cette collation froide de charcuteries, fromage et pain noir qui est l'institution la plus fiable de Bavière.</p>
+
+    <h3>Les lacs de Munich</h3>
+    <p>Schliersee puis Tegernsee : on entre dans l'arrière-cour de Munich, à une heure de la ville, et cela change tout. Ces deux lacs sont le lieu de villégiature de la bourgeoisie bavaroise depuis le XIX<sup>e</sup> siècle, et l'un des mètres carrés les plus chers d'Allemagne. On y croise des maisons de famille à colombages repeints, des cliniques privées, et une densité de voitures allemandes récentes assez frappante après le Priental.</p>
+    <p>Le Tegernsee mérite malgré tout l'arrêt, pour une raison précise : le <em>Herzogliches Bräustüberl</em>, la brasserie ducale installée dans l'ancienne abbaye au bord de l'eau. C'est une salle voûtée où l'on se sert soi-même, où l'on boit debout ou sur de longues tables communes, où la chope de litre coûte moins cher que partout ailleurs en Bavière, et où le duc de Bavière reste officiellement propriétaire des lieux. C'est bruyant, populaire, et parfaitement authentique — l'inverse exact de la station huppée qui l'entoure.</p>
+
+    <h3>Bad Tölz et les fresques</h3>
+    <p>Bad Tölz est la halte urbaine de la journée, et probablement la plus jolie petite ville que vous verrez avant Lindau. La Marktstraße descend en pente douce vers l'Isar, large comme une place, bordée de maisons à pignons plats et à façades peintes — ocre, rose pâle, vert d'eau, avec des encadrements en trompe-l'œil. La ville a fait fortune au Moyen Âge grâce au flottage du bois et au commerce du sel, puis s'est reconvertie en 1846 quand on y a découvert une source iodée, la plus riche d'Europe. Elle vit depuis du thermalisme.</p>
+    <p>Quinze kilomètres plus loin, Benediktbeuern cache une histoire qui dépasse largement le cadre local. Cette abbaye bénédictine, fondée en 739, possédait dans sa bibliothèque un manuscrit oublié depuis des siècles. Quand les biens du clergé sont saisis en 1803, un bibliothécaire le retrouve et le transfère à Munich : c'est le recueil des <em>Carmina Burana</em>, deux cent cinquante-quatre poèmes latins et allemands du XIII<sup>e</sup> siècle, écrits par des clercs vagabonds, célébrant le vin, le jeu, l'amour et la roue de la Fortune. Carl Orff en a mis vingt-quatre en musique en 1936 ; le chœur d'ouverture, <em>O Fortuna</em>, est devenu l'un des morceaux les plus utilisés au cinéma. Tout cela vient de cette abbaye que vous longez.</p>
+
+    <h3>Le Kesselberg et le Walchensee</h3>
+    <p>La dernière partie est la meilleure. Du Kochelsee, un lac plat et tiède posé au débouché de la montagne, la route grimpe le col du Kesselberg en neuf épingles serrées sur cinq kilomètres. Le passage est un mythe pour les motards allemands, au point que l'administration l'a fermé aux deux-roues certains dimanches d'été après une série d'accidents mortels ; si vous y êtes un vendredi, vous en croiserez malgré tout beaucoup, et il faut conduire en conséquence.</p>
+    <p>Au sommet, le Walchensee apparaît d'un coup, huit cents mètres au-dessus du niveau de la mer, d'un turquoise dense qui paraît artificiel. C'est l'un des plus grands et des plus profonds lacs alpins d'Allemagne — cent quatre-vingt-dix mètres de fond — et sa couleur vient, comme à l'Eibsee, des fines particules calcaires en suspension.</p>
+    <p>Deux histoires s'y attachent. La première est industrielle : en 1924, on a construit une centrale hydroélectrique qui utilise les deux cents mètres de dénivelé entre le Walchensee et le Kochelsee pour produire de l'électricité. Elle fut longtemps la plus puissante d'Europe et alimente encore le réseau ferroviaire bavarois. Les conduites forcées descendent la montagne juste à côté de la route.</p>
+    <p>La seconde est plus trouble. En avril 1945, dans les derniers jours du régime, des convois de la Reichsbank ont dispersé les réserves d'or et de devises dans les Alpes bavaroises. Une partie a été enterrée dans la région, et l'on a longtemps affirmé que des caisses avaient été immergées dans le Walchensee. Des plongeurs, des chercheurs de trésor et quelques expéditions officielles s'y sont succédé pendant des décennies ; on a effectivement remonté des billets, jamais l'or. L'affaire alimente encore les conversations locales.</p>
+    <p>Pour vous, ce sera surtout la dernière baignade. La rive nord, à Urfeld, offre plusieurs accès libres, et l'anse de sable près d'Einsiedl est le meilleur endroit du lac. L'eau est à dix-huit degrés : c'est court, c'est vif, et c'est exactement le genre de bain dont on se souvient vingt ans plus tard.</p>
+
+    <h3>La dernière ligne</h3>
+    <p>Après Wallgau et Krün, la vallée s'élargit une dernière fois et le massif du Wetterstein ferme l'horizon — avec, au milieu, la Zugspitze que vous monterez demain. Le Barmsee, minuscule et tiède, offre le point de vue le plus photographié de Haute-Bavière : le lac au premier plan, la chaîne entière derrière. Puis c'est Garmisch, la fin de la route pour vous, et l'entrée dans la dernière semaine du séjour.</p>
+
+    <h3>S'arrêter manger, mode d'emploi</h3>
+    <p>La restauration le long de cette route obéit à des règles simples qu'il vaut mieux connaître. Le <em>Gasthof</em> est l'auberge de village, ouverte midi et soir avec une interruption l'après-midi — arriver à quinze heures en espérant déjeuner ne fonctionne pas. La <em>Alm</em> ou <em>Almhütte</em> est le refuge d'alpage, souvent accessible en voiture sur cette route, service continu et carte réduite. Le <em>Biergarten</em>, enfin, obéit à une coutume bavaroise inscrite dans la loi depuis 1812 : on a le droit d'y apporter sa propre nourriture, à condition de consommer les boissons sur place. C'est parfaitement légal, personne ne vous regardera de travers, et c'est la solution la moins chère avec des enfants.</p>
+    <p>Côté carte, quelques mots reviennent partout. La <em>Brotzeit</em> est l'assiette froide — charcuteries, fromage, radis, pain noir — que l'on prend à n'importe quelle heure. Les <em>Käsespätzle</em> sont les pâtes fraîches gratinées au fromage, l'équivalent local du macaroni au fromage, valeur sûre pour les enfants. Le <em>Schweinsbraten</em> est le rôti de porc à la peau croustillante servi avec une boulette de pommes de terre. Et le <em>Kaiserschmarrn</em>, cette omelette sucrée déchirée en morceaux, saupoudrée de sucre glace et servie avec de la compote de pruneaux, se commande en dessert mais suffit largement comme repas complet.</p>
+    <p>Enfin, une habitude à prendre : beaucoup d'établissements de campagne n'acceptent toujours pas la carte bancaire, ou seulement au-delà d'un certain montant. Gardez cinquante à cent euros en espèces sur vous pour la journée. C'est également vrai pour les parkings des lacs, souvent équipés d'horodateurs à pièces uniquement.</p>
+
+    <h3>Cinq choses à savoir avant de partir</h3>
+    <p><strong>Le carburant.</strong> Faites le plein à Siegsdorf ou à Inzell. Entre Reit im Winkl et Bad Tölz, les stations sont rares, souvent fermées le soir, et sensiblement plus chères. Si vous coupez par l'A8, les aires d'autoroute allemandes sont les plus chères du pays — sortez pour faire le plein.</p>
+    <p><strong>Le réseau.</strong> La couverture mobile tombe régulièrement dans les vallées encaissées, notamment entre Sachrang et Oberaudorf, et sur le Kesselberg. Téléchargez la carte hors-ligne avant de partir : c'est le trajet du séjour où le GPS a le plus de chances de vous lâcher.</p>
+    <p><strong>Le trafic d'août.</strong> Un vendredi de mi-août, la B305 se remplit de camping-cars qui roulent à cinquante et ne se rangent pas. Ne comptez pas rattraper du temps sur cette route : la moyenne réelle tourne autour de cinquante kilomètres-heure, arrêts non compris.</p>
+    <p><strong>Les frontières.</strong> Vous entrez deux fois en Autriche, sans contrôle. La vignette autoroutière autrichienne n'est pas nécessaire tant que vous restez sur les routes nationales, ce que fait l'itinéraire. Gardez tout de même carte grise et permis à portée.</p>
+    <p><strong>Le pique-nique.</strong> Achetez-le à Inzell, au kilomètre 11 : c'est le dernier supermarché correct avant longtemps. Et guettez le long de la route les fermes qui vendent en direct — lait, beurre, fromage de montagne, souvent sur une simple table avec une caisse de confiance où l'on laisse la monnaie. Personne ne surveille, et ça fonctionne depuis toujours.</p>
+
+  </div>
+
+  <a class="back" href="index.html">← Retour au séjour</a>
+
+</div>
+</body>
+</html>
