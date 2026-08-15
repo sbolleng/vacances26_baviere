@@ -328,6 +328,7 @@ body {
   margin-bottom: 0.3rem;
 }
 .acts li.reporte .report { opacity: 1; }
+.report.ok { color: var(--lake); background: var(--lake-soft); }
 
 /* renvoi vers une page dédiée */
 .gopage {

@@ -134,6 +134,7 @@
           legHTML(a.leg, a.nm) +
           '<div class="act-in"><span class="dot"></span><div class="act-txt">' +
           (a.reporte ? '<span class="report">' + esc(a.reporte) + "</span>" : "") +
+          (a.fait ? '<span class="report ok">' + esc(a.fait) + "</span>" : "") +
           '<div class="nm">' + esc(a.nm) + "</div>" +
           tagsHTML(a.tags) +
           (a.note ? '<div class="note">' + esc(a.note) + "</div>" : "") +
