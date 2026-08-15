@@ -311,6 +311,26 @@ body {
 .maps.alt { color: var(--lake); background: transparent; }
 .retour .leg { border-bottom: none; border-top: 1px solid var(--line-soft); }
 
+/* carte d'itinéraire dans une journée */
+.mapwrap {
+  margin: 0.75rem 1rem 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mapwrap svg { display: block; min-width: 880px; width: 100%; height: auto; }
+.maphint {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  text-align: center;
+  padding: 0.4rem 0 0.5rem;
+}
+.gopage.mapgo { margin: 0.5rem 1rem 0; }
+
 /* renvoi vers une page dédiée */
 .gopage {
   display: flex;

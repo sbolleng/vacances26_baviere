@@ -142,6 +142,15 @@
         '<span class="dur">' + esc(j.route.dur) + "</span></div>";
     }
 
+    if (j.carte && typeof CARTE_ALPES !== "undefined") {
+      h += '<div class="mapwrap">' + CARTE_ALPES +
+        '<p class="maphint">Schéma de l\'itinéraire — faites glisser</p></div>';
+      if (j.carte.page) {
+        h += '<a class="gopage mapgo" href="' + esc(j.carte.page) + '">' +
+          esc(j.carte.libelle) + '<span aria-hidden="true">→</span></a>';
+      }
+    }
+
     if (j.alerte) {
       h += '<p class="alerte">' + esc(j.alerte) + "</p>";
     }
@@ -194,6 +203,8 @@
     var pip = document.querySelector(".pip.is-today");
     if (pip) pip.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
   }
+
+  document.querySelectorAll(".mapwrap").forEach(function (m) { m.scrollLeft = m.scrollWidth; });
 
   if (document.readyState === "complete") cadrer();
   else window.addEventListener("load", cadrer);
