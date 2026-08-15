@@ -26,11 +26,20 @@
       .replace(/"/g, "&quot;");
   }
 
-  var CAR = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" ' +
-    'stroke="currentColor" stroke-width="2" stroke-linecap="round" ' +
-    'stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm18 0a2 2 0 1 1-4 0 ' +
-    '2 2 0 0 1 4 0ZM3 17v-4l2-5h11l3 5h2v4"/></svg>';
+  function svg(d) {
+    return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" ' +
+      'stroke="currentColor" stroke-width="2" stroke-linecap="round" ' +
+      'stroke-linejoin="round" aria-hidden="true">' + d + "</svg>";
+  }
+  var CAR = svg('<path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm18 0a2 2 0 1 1-4 0 ' +
+    '2 2 0 0 1 4 0ZM3 17v-4l2-5h11l3 5h2v4"/>');
+  // U-Bahn : une rame vue de face.
+  var METRO = svg('<rect x="5" y="3" width="14" height="14" rx="3"/>' +
+    '<path d="M5 11h14M8.5 20l-2 2M15.5 20l2 2"/><circle cx="8.5" cy="14.5" r=".6"/>' +
+    '<circle cx="15.5" cy="14.5" r=".6"/>');
+  var PIED = svg('<circle cx="13" cy="4" r="1.6"/>' +
+    '<path d="M11 21l1.5-5 2.5-2-1-5-3 1-2 3M14 14l3 3 1 4"/>');
+  var ICONES = { voiture: CAR, metro: METRO, pied: PIED };
 
   function tagsHTML(list) {
     if (!list || !list.length) return "";
@@ -50,24 +59,33 @@
     return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(query);
   }
 
-  function navHTML(query, dest, compact) {
+  // En voiture : Waze puis Maps. À pied ou en métro : Maps seul, dans le bon mode.
+  function navHTML(query, dest, compact, mode) {
     if (!query) return "";
     var cls = compact ? "legm" : "maps";
-    return '<a class="' + cls + '" target="_blank" rel="noopener" href="' + wazeURL(query) +
-      '" aria-label="Naviguer vers ' + esc(dest) + ' avec Waze">Waze</a>' +
-      '<a class="' + cls + ' alt" target="_blank" rel="noopener" href="' + gmapsURL(query) +
-      '" aria-label="Itinéraire vers ' + esc(dest) + ' avec Google Maps">Maps</a>';
+    var m = mode || "voiture";
+    if (m === "voiture") {
+      return '<a class="' + cls + '" target="_blank" rel="noopener" href="' + wazeURL(query) +
+        '" aria-label="Naviguer vers ' + esc(dest) + ' avec Waze">Waze</a>' +
+        '<a class="' + cls + ' alt" target="_blank" rel="noopener" href="' + gmapsURL(query) +
+        '" aria-label="Itinéraire vers ' + esc(dest) + ' avec Google Maps">Maps</a>';
+    }
+    var travel = m === "metro" ? "transit" : "walking";
+    return '<a class="' + cls + '" target="_blank" rel="noopener" href="' +
+      gmapsURL(query) + "&travelmode=" + travel +
+      '" aria-label="Itinéraire vers ' + esc(dest) + '">Maps</a>';
   }
 
   // Trajet entre deux points de la journée.
   function legHTML(leg, arrivee) {
     if (!leg) return "";
     var dest = leg.to || arrivee;
-    return '<div class="leg">' + CAR +
+    var mode = leg.mode || "voiture";
+    return '<div class="leg">' + (ICONES[mode] || CAR) +
       "<span>" + esc(leg.from) + " → " + esc(dest) + "</span>" +
       '<span class="legd">' + esc(leg.dur) +
       (leg.km ? ' <i>' + esc(leg.km) + "</i>" : "") + "</span>" +
-      navHTML(leg.maps, dest, true) +
+      navHTML(leg.maps, dest, true, mode) +
       "</div>";
   }
 
@@ -130,11 +148,9 @@
 
     if (j.acts && j.acts.length) {
       h += '<ul class="acts">' + j.acts.map(function (a) {
-        return '<li' + (a.reporte ? ' class="reporte"' : "") + ">" +
+        return "<li>" +
           legHTML(a.leg, a.nm) +
           '<div class="act-in"><span class="dot"></span><div class="act-txt">' +
-          (a.reporte ? '<span class="report">' + esc(a.reporte) + "</span>" : "") +
-          (a.fait ? '<span class="report ok">' + esc(a.fait) + "</span>" : "") +
           '<div class="nm">' + esc(a.nm) + "</div>" +
           tagsHTML(a.tags) +
           (a.note ? '<div class="note">' + esc(a.note) + "</div>" : "") +
@@ -161,7 +177,7 @@
           (j.stay.addr ? '<div class="addr">' + esc(j.stay.addr) + "</div>" : "") +
           tagsHTML(j.stay.tags) +
           (j.stay.note ? '<div class="note">' + esc(j.stay.note) + "</div>" : "") +
-          (j.stay.maps ? '<div class="navrow">' + navHTML(j.stay.maps, j.stay.nm, false) + "</div>" : "") +
+          (j.stay.maps ? '<div class="navrow">' + navHTML(j.stay.maps, j.stay.nm, false, "voiture") + "</div>" : "") +
           "</div>";
       }
     }
