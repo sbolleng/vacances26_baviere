@@ -325,6 +325,8 @@ const JOURS = [
           { thumb: "img/zugspitze-observatoire-v.jpg", src: "img/zugspitze-observatoire.jpg", leg: "L'observatoire et ce qu'il reste du Schneeferner" },
           { thumb: "img/zugspitze-rocher-v.jpg",       src: "img/zugspitze-rocher.jpg",       leg: "Le dernier rocher, au-dessus des échelons" },
           { thumb: "img/zugspitze-hollental-v.jpg",    src: "img/zugspitze-hollental.jpg",    leg: "Le Höllentalferner sous l'arête, à contre-jour" },
+          { thumb: "img/zugspitze-voie-v.jpg",         src: "img/zugspitze-voie.jpg",         leg: "La voie du Reintal, minuscule dans la paroi" },
+          { thumb: "img/zugspitze-panneau-v.jpg",      src: "img/zugspitze-panneau.jpg",      leg: "Garmisch à 8 h de marche par le Reintal" },
           { thumb: "img/zugspitze-arete-nous-v.jpg",   src: "img/zugspitze-arete-nous.jpg",   leg: "Sur l'arête, à 2 962 m" }
         ],
         note: "Parking de la station : Am Eibsee 6, 82491 Grainau — 630 places, payant, carte acceptée, hauteur limitée à 2,20 m et stationnement interdit de 22 h à 5 h. Trois remontées différentes, et elles n'arrivent pas au même endroit. Le téléphérique de l'Eibsee monte au sommet en 10 min. Le train à crémaillère, lui, s'arrête au Zugspitzplatt à 2 588 m, le plateau glaciaire — 360 m sous le sommet — d'où la Gletscherbahn finit le travail. En bas en revanche, la gare Eibsee du train et la station du téléphérique sont voisines, quelques minutes à pied, même parking. Prévoir polaire, coupe-vent et lunettes de soleil : 15 à 20 °C de moins qu'en bas, souvent autour de 5 °C en août.",
