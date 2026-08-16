@@ -350,7 +350,6 @@ const JOURS = [
           { thumb: "img/eibsee-anse-v.jpg",    src: "img/eibsee-anse.jpg",    leg: "L'anse ouest en fin de matinée" },
           { thumb: "img/eibsee-pedalo-large-v.jpg", src: "img/eibsee-pedalo-large.jpg", leg: "En pédalo au milieu du lac" },
           { thumb: "img/eibsee-sieste-v.jpg",       src: "img/eibsee-sieste.jpg",       leg: "La sieste à plat ventre sur le pédalo" },
-          { thumb: "img/eibsee-abordage-v.jpg",     src: "img/eibsee-abordage.jpg",     leg: "L'abordage, près de l'arbre mort" },
           { thumb: "img/eibsee-pause-v.jpg",        src: "img/eibsee-pause.jpg",        leg: "Pause sur le pédalo jaune" },
           { thumb: "img/eibsee-amarrage-v.jpg",     src: "img/eibsee-amarrage.jpg",     leg: "L'amarrage contre les rochers" }
         ],
