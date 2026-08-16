@@ -209,33 +209,95 @@
   });
 
   // ----- visionneuse -----
+  // On y entre par une vignette ; on circule ensuite dans toute la bande de
+  // l'\u00e9tape, aux fl\u00e8ches, au doigt ou au clavier. La liste boucle sur elle-m\u00eame.
   var vue = document.createElement("div");
   vue.className = "viewer";
   vue.setAttribute("hidden", "");
   vue.innerHTML = '<button type="button" class="vclose" aria-label="Fermer">\u00d7</button>' +
-    '<img alt=""><p class="vleg"></p>';
+    '<button type="button" class="vprev" aria-label="Photo pr\u00e9c\u00e9dente">\u2039</button>' +
+    '<button type="button" class="vnext" aria-label="Photo suivante">\u203a</button>' +
+    '<img alt=""><p class="vleg"></p><p class="vcount"></p>';
   document.body.appendChild(vue);
 
-  function ouvrir(src, leg) {
-    vue.querySelector("img").src = src;
-    vue.querySelector(".vleg").textContent = leg;
+  var vimg = vue.querySelector("img");
+  var album = [];   // [{ src, leg }] \u2014 la bande d'o\u00f9 l'on vient
+  var pos = 0;
+  var tx = 0, ty = 0, balaye = false;
+
+  // Charger en avance les voisines : le passage d'une photo \u00e0 l'autre est
+  // alors instantan\u00e9, m\u00eame en 4G.
+  function precharger(i) {
+    [i - 1, i + 1].forEach(function (k) {
+      var p = album[(k + album.length) % album.length];
+      if (p) { var im = new Image(); im.src = p.src; }
+    });
+  }
+
+  function afficher(i) {
+    pos = (i + album.length) % album.length;
+    var p = album[pos];
+    vimg.src = p.src;
+    vimg.alt = p.leg;
+    vue.querySelector(".vleg").textContent = p.leg;
+    vue.querySelector(".vcount").textContent = album.length > 1
+      ? pos + 1 + " / " + album.length : "";
+    precharger(pos);
+  }
+
+  function ouvrir(bande, i) {
+    album = bande;
+    vue.classList.toggle("solo", album.length < 2);
+    afficher(i);
     vue.removeAttribute("hidden");
     document.body.style.overflow = "hidden";
   }
   function fermer() {
     vue.setAttribute("hidden", "");
-    vue.querySelector("img").src = "";
+    vimg.src = "";
+    album = [];
     document.body.style.overflow = "";
   }
 
   document.addEventListener("click", function (e) {
-    var b = e.target.closest ? e.target.closest(".shot") : null;
-    if (b) { ouvrir(b.dataset.src, b.dataset.leg); return; }
-    if (e.target.closest && e.target.closest(".viewer")) fermer();
+    if (!e.target.closest) return;
+    var b = e.target.closest(".shot");
+    if (b) {
+      var boutons = [].slice.call(b.parentNode.querySelectorAll(".shot"));
+      ouvrir(boutons.map(function (x) {
+        return { src: x.dataset.src, leg: x.dataset.leg };
+      }), boutons.indexOf(b));
+      return;
+    }
+    if (!e.target.closest(".viewer")) return;
+    if (balaye) { balaye = false; return; } // le clic qui suit un balayage
+    if (e.target.closest(".vprev")) { afficher(pos - 1); return; }
+    if (e.target.closest(".vnext")) { afficher(pos + 1); return; }
+    if (e.target === vimg) { if (album.length > 1) afficher(pos + 1); return; }
+    fermer(); // le fond et la croix ferment
   });
+
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !vue.hasAttribute("hidden")) fermer();
+    if (vue.hasAttribute("hidden")) return;
+    if (e.key === "Escape") fermer();
+    else if (e.key === "ArrowLeft") afficher(pos - 1);
+    else if (e.key === "ArrowRight") afficher(pos + 1);
   });
+
+  // Balayage horizontal, comme dans l'application Photos. Le geste est suivi
+  // d'un clic synthétique, qu'on neutralise pour ne pas fermer dans la foulée.
+  vue.addEventListener("touchstart", function (e) {
+    tx = e.changedTouches[0].clientX;
+    ty = e.changedTouches[0].clientY;
+  }, { passive: true });
+  vue.addEventListener("touchend", function (e) {
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if (album.length > 1 && Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+      balaye = true;
+      afficher(pos + (dx < 0 ? 1 : -1));
+    }
+  }, { passive: true });
 
   // ----- se placer sur aujourd'hui -----
   function cadrer() {
