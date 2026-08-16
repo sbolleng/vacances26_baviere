@@ -98,6 +98,18 @@
       '<div class="guide-body">' + txt + "</div></details>";
   }
 
+  // Bande de vignettes sous une étape. Le clic ouvre la visionneuse.
+  function photosHTML(list) {
+    if (!list || !list.length) return "";
+    return '<div class="shots">' + list.map(function (ph, i) {
+      return '<button type="button" class="shot" data-src="' + esc(ph.src) +
+        '" data-leg="' + esc(ph.leg) + '">' +
+        '<img src="' + esc(ph.thumb) + '" alt="' + esc(ph.leg) +
+        '" loading="lazy" width="520" height="390">' +
+        "</button>";
+    }).join("") + "</div>";
+  }
+
   // Renvoi vers une page dédiée quand une étape en a une.
   function pageHTML(page) {
     if (!page) return "";
@@ -163,6 +175,7 @@
           '<div class="nm">' + esc(a.nm) + "</div>" +
           tagsHTML(a.tags) +
           (a.note ? '<div class="note">' + esc(a.note) + "</div>" : "") +
+          photosHTML(a.photos) +
           pageHTML(a.page) +
           guideHTML(a.guide, a.nm) +
           "</div></div></li>";
@@ -193,6 +206,35 @@
 
     sec.innerHTML = h;
     wrap.appendChild(sec);
+  });
+
+  // ----- visionneuse -----
+  var vue = document.createElement("div");
+  vue.className = "viewer";
+  vue.setAttribute("hidden", "");
+  vue.innerHTML = '<button type="button" class="vclose" aria-label="Fermer">\u00d7</button>' +
+    '<img alt=""><p class="vleg"></p>';
+  document.body.appendChild(vue);
+
+  function ouvrir(src, leg) {
+    vue.querySelector("img").src = src;
+    vue.querySelector(".vleg").textContent = leg;
+    vue.removeAttribute("hidden");
+    document.body.style.overflow = "hidden";
+  }
+  function fermer() {
+    vue.setAttribute("hidden", "");
+    vue.querySelector("img").src = "";
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest(".shot") : null;
+    if (b) { ouvrir(b.dataset.src, b.dataset.leg); return; }
+    if (e.target.closest && e.target.closest(".viewer")) fermer();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !vue.hasAttribute("hidden")) fermer();
   });
 
   // ----- se placer sur aujourd'hui -----
